@@ -2132,8 +2132,15 @@
 {"label":"DEGREE","pattern":[{"LOWER": "m.sc"}]}
 {"label":"DEGREE","pattern":[{"LOWER": "b.eng"}]}
 {"label":"DEGREE","pattern":[{"LOWER": "post"},{ "ORTH": "-", "OP": "?"},{"LOWER": "doctoral"},{"LOWER": "fellow"}]}
+{"label":"INSTITUTE","pattern":[{"LOWER": "a"},{"LOWER": "t&t"}, {"LOWER": "bell"}, {"LOWER": "laboratories"}]}
 {"label":"INSTITUTE","pattern":[{"LOWER": "at&t"}, {"LOWER": "bell"}, {"LOWER": "laboratories"}]} 
 {"label":"INSTITUTE","pattern":[{"LOWER": "mit"}]}
 {"label":"INSTITUTE","pattern":[{"LOWER": "mcgill"}, {"LOWER": "university"}]}
+{"label":"FIELD","pattern":[{"LOWER": "learning"},{"LOWER": "vision"},{"LOWER": "algorithm"}]}
+{"label":"FIELD","pattern":[{"LOWER": "statistical"},{"LOWER": "learning"}]}
+{"label":"FIELD","pattern":[{"LOWER": "neural"},{"LOWER": "networks"},{"LOWER": "markovian"},{"LOWER": "models"}]}
+{"label":"FIELD","pattern":[{"LOWER": "speech"},{"LOWER": "recognition"},{"LOWER": "statistical"},{"LOWER": "method"}]}
+{"label":"FIELD","pattern":[{"LOWER": "computer"},{"LOWER": "science"}]}
+{"label":"FIELD","pattern":[{"LOWER": "computer"},{"LOWER": "engineering"}]}
 {"label":"YEAR","pattern":[{"SHAPE": "dddd"}, {"SHAPE": "dddd"}]}
 

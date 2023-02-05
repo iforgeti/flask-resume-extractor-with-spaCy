@@ -42,12 +42,6 @@ def index():
         ruler = nlp.add_pipe("entity_ruler",before="ner")
         ruler.from_disk(skill_path)
 
-        # degree_pattern =[ 
-        #             {"label": "DEGREE", "pattern":[{"LOWER": "ph.d."}]},
-        #             {"label": "DEGREE", "pattern":[{"LOWER": "ph.d."}]}  
-        #             ]#, [{"LOWER": "master"}, {"TEXT": "of"}, {"POS": "NOUN"}]
-        # ruler.add_patterns(degree_pattern)
-
         # Convert the PDF to text
         pdf_text = read_pdf(file)
 
@@ -61,28 +55,38 @@ def index():
         skills = []
         degree = []
         instutute = []
-        find_school = 0
-        for ent in doc.ents:
-            if find_school == 1:
-                if ent.label_ == "INSTITUTE":
+        field = []
+
+        doc_num = len(doc.ents)
+        for i,ent in enumerate(doc.ents):
+            if len(degree) > len(instutute) or len(degree) > len(field):
+                if ent.label_ == "INSTITUTE" and len(degree) > len(instutute):
                     instutute.append(ent.text)
-                    find_school = 0
-                elif ent.label_ == "DEGREE":
-                    instutute.append("-")
-                    find_school = 0
+                    if len(degree) > len(field):
+                        field.append("-") 
+                elif ent.label_ == "FIELD" and  len(degree) > len(field):
+                    field.append(ent.text)
+
+                elif ent.label_ == "DEGREE" or i == (doc_num -1):
+                    if len(degree) > len(instutute):
+                        instutute.append("-")
+                    
+                    if len(degree) > len(field):
+                        field.append("-") 
 
             if ent.label_ == "SKILL":
                 skills.append(ent.text)
             elif ent.label_ == "DEGREE":
                 degree.append(ent.text)
-                find_school = 1
+
         # Return the extracted information
         skills = list(set(skills))
   
-        combined_table = "<table><tr><th>Skills</th><th>Degree</th><th>Instutute</th></tr>"
-        for i in range(max(len(skills), len(degree),len(instutute))):
+        combined_table = "<table><tr><th>Skills</th><th>Degree</th><th>Field</th><th>Instutute</th></tr>"
+        for i in range(max(len(skills), len(degree))):
             combined_table += "<tr><td>" + (skills[i] if i < len(skills) else "") + "</td><td>" +\
-                 (degree[i] if i < len(degree) else "")+ "</td><td>" + (instutute[i] if i < len(instutute) else "")+ "</td></tr>"
+                 (degree[i] if i < len(degree) else "")+ "</td><td>" +\
+                     (field[i] if i < len(field) else "")+ "</td><td>" + (instutute[i] if i < len(instutute) else "")+ "</td></tr>"
         combined_table += "</table>"
 
         return """
