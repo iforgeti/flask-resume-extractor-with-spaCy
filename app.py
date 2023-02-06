@@ -1,7 +1,8 @@
-from flask import Flask, request
+from flask import Flask, request,render_template
 import spacy
 from PyPDF2 import PdfReader
 from spacy.lang.en.stop_words import STOP_WORDS
+from jinja2 import Template
 
 app = Flask(__name__)
 
@@ -28,9 +29,8 @@ def preprocessing(doc):
                 
     return " ".join(cleaned_tokens)
 
-@app.route("/", methods=["GET", "POST"])
-def index():
-    if request.method == "POST":
+def extract_data():
+
         # Load the PDF file
         file = request.files["pdf_file"]
 
@@ -52,14 +52,21 @@ def index():
         doc = nlp(preprocessing(doc))
 
         # Extract skills and education information
+        # list of data
         skills = []
         degree = []
         instutute = []
         field = []
 
         doc_num = len(doc.ents)
+
+        # get data
         for i,ent in enumerate(doc.ents):
+
+            # check for institute and field if we find degree (degree usally come frist before institute and field)
             if len(degree) > len(instutute) or len(degree) > len(field):
+
+                # append institute that found after degree and if not field before institute make it blank (institute came last)
                 if ent.label_ == "INSTITUTE" and len(degree) > len(instutute):
                     instutute.append(ent.text)
                     if len(degree) > len(field):
@@ -67,6 +74,7 @@ def index():
                 elif ent.label_ == "FIELD" and  len(degree) > len(field):
                     field.append(ent.text)
 
+                # if found degree again just fill all blank
                 elif ent.label_ == "DEGREE" or i == (doc_num -1):
                     if len(degree) > len(instutute):
                         instutute.append("-")
@@ -74,51 +82,30 @@ def index():
                     if len(degree) > len(field):
                         field.append("-") 
 
+            # extract skill and degree
             if ent.label_ == "SKILL":
                 skills.append(ent.text)
             elif ent.label_ == "DEGREE":
                 degree.append(ent.text)
 
-        # Return the extracted information
+        
         skills = list(set(skills))
+
+        # Return the extracted information
+        return skills,degree,field,instutute
   
-        combined_table = "<table><tr><th>Skills</th><th>Degree</th><th>Field</th><th>Instutute</th></tr>"
-        for i in range(max(len(skills), len(degree))):
-            combined_table += "<tr><td>" + (skills[i] if i < len(skills) else "") + "</td><td>" +\
-                 (degree[i] if i < len(degree) else "")+ "</td><td>" +\
-                     (field[i] if i < len(field) else "")+ "</td><td>" + (instutute[i] if i < len(instutute) else "")+ "</td></tr>"
-        combined_table += "</table>"
 
-        return """
-    <html>
-    <head>
-        <style>
-            table {
-                margin: 0 auto;
-                text-align: center;
-                border-collapse: collapse;
-            }
-            th, td {
-                border: 1px solid black;
-                padding: 8px;
-            }
-            th {
-                background-color: #dddddd;
-            }
-        </style>
-    </head>
-    <body>
-        """ + combined_table + """
-    </body>
-    </html>
-"""
 
-    return """
-        <form method="post" enctype="multipart/form-data">
-            <input type="file" name="pdf_file">
-            <input type="submit" value="Extract">
-        </form>
-    """
+@app.route('/', methods=['GET', 'POST'])
+def upload():
+    if request.method == 'POST':
+
+        # Call the extract_data function and pass the pdf_file as an argument
+        skills, degree, field, institute = extract_data()
+        # Render the result template and pass the extracted data as arguments
+        return render_template('result.html', skills=skills, degree=degree, field=field, institute=institute)
+    return render_template('upload.html')
+
 
 if __name__ == "__main__":
     app.run(debug=True)
