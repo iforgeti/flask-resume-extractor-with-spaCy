@@ -2,18 +2,20 @@
 
 ## How to do
 
-### Step 1
+- ### Step 1
 
-### Step 2
+build extract 
 
-### Step 3
+- ### Step 2
+
+- ### Step 3
 
 
 
 ---
 ## review
 
-### 1. Upload page 
+- ### Upload page 
 
 minimal webpage black and white theme  
 
@@ -27,7 +29,7 @@ upload bottom pop up, Let extract our cv.
 
 ![image](https://user-images.githubusercontent.com/78832408/217249911-4494aaee-d14e-4f3f-91a3-409782e53abd.png)
 
-### 2. Result page
+- ### 2. Result page
 
 result page show table of skill and table of education
 
@@ -37,3 +39,4 @@ table of education consist of degree, field of study and Institute
 
 ![image](https://user-images.githubusercontent.com/78832408/217249616-6dc26cb6-8b7e-4337-9852-41f1137919fc.png)
 
+---
