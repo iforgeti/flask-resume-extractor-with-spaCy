@@ -1,10 +1,13 @@
 # Quick flask resume extractor
 ---
 # How to do
-
+---
 # review
+---
 ## 1. Upload page 
-minimal webpage black and white theme 
+
+minimal webpage black and white theme  
+
 ![image](https://user-images.githubusercontent.com/78832408/217243876-ca98b248-8591-4ef4-8104-2c855a91a5c4.png)
 
 ![image](https://user-images.githubusercontent.com/78832408/217249788-95887d93-5008-41cd-9e17-4bec4fc5e307.png)
