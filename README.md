@@ -1,16 +1,23 @@
-# Quick flask resume extractor
 
-## How to do
-
-- ### Step 1
-
-build extract 
-
-- ### Step 2
-
-- ### Step 3
+## How to do flask pdf resume extractor by yourself 
 
 
+
+- step1 install nessesery library PyPDF2 spacy and flask
+
+- step2 copy skill pattern for nlp entity ruler from microsoft
+https://github.com/microsoft/SkillsExtractorCognitiveSearch.git
+
+- step3 add other pattern as you want (in this work i only add pattern for extrct data from someone_cv.pdf)
+![image](https://user-images.githubusercontent.com/78832408/217266187-6f09236d-c8ee-49df-a380-54388c875924.png)
+
+- step4 write program to extract data
+
+  In brief, program receive pdf file from user. Pdf file convert to text . preprocessing text by remove symbol punctuation stopword... use spacy to label entity . select only entity we need (SKILLS,DEGREE,FIELD,INSTITUTE). if find degree in text get field and institute too (work in case input cv looklike someone_cv)
+
+- Step5 create web page with html 
+
+- Step6 decorate with css
 
 ---
 ## review
